@@ -53,8 +53,16 @@ npm i -S cors
 
 
 # 勉強すること
+今Reactでアプリケーションを作ろうとしたら何がベストプラクティスなのか...  
+`create-react-app`なのか`next`なのか...  
+
 - スタイルはどうするのか（scss）
+  - css in js が良いっぽい？（next.jsがそうっぽい）
+  - [MATERIAL-UI](https://material-ui.com/)
+  - [React Bootstrap](https://react-bootstrap.github.io/)
 - Redux
+  - propsのバケツリレーをやめるためのツール
+- Router
 - Firebaseとの連携
   - DB
   - ログイン
