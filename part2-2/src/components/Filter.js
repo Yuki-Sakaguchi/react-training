@@ -3,7 +3,7 @@ import Note from './Note'
 
 import noteService from "../services/notes";
 
-const Filter = ({ notes, setNotes }) => {
+const Filter = ({ notes, setNotes, setErrorMessage }) => {
   const [filter, setFilter] = useState('')
   const [showAll, setShowAll] = useState(true)
 
@@ -30,7 +30,8 @@ const Filter = ({ notes, setNotes }) => {
         setNotes(notes.map(note => note.id !== id ? note : returnedNote))
       })
       .catch(error => {
-        alert(`the note ${note.content} was already deleted from server`)
+        setErrorMessage(`the note ${note.content} was already deleted from server`)
+        setTimeout(() => setErrorMessage(null), 5000)
         setNotes(notes.filter(n => n.id !== id))
       })
   }

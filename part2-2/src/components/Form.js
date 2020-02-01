@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import noteService from '../services/notes';
 
-const Form = ({ notes, setNotes }) => {
+const Form = ({ notes, setNotes, setErrorMessage }) => {
   const [newNote, setNewNote] = useState('a new note...')
   const [newLabel, setNewLabel] = useState('label')
 
@@ -28,6 +28,21 @@ const Form = ({ notes, setNotes }) => {
         setNotes(notes.concat(returnedNote))
         setNewNote('')
         setNewLabel('')
+      })
+      .catch(error => {
+        setErrorMessage(`登録に失敗しました`)
+        setTimeout(() => setErrorMessage(null), 5000)
+        noteService
+          .getAll()
+          .then(initialNotes => {
+            console.log('promise fulfilled')
+            setNotes(initialNotes) // サーバーからデータが取ってこれたら再レンダリング
+          })
+          .catch(error => {
+            setErrorMessage(`取得できませんでした。`)
+            setTimeout(() => setErrorMessage(null), 5000)
+            setNotes([])
+          })
       })
   }
 
