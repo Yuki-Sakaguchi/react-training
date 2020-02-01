@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import noteService from '../services/notes';
 
 const Form = ({ notes, setNotes }) => {
   const [newNote, setNewNote] = useState('a new note...')
@@ -14,16 +15,20 @@ const Form = ({ notes, setNotes }) => {
     }
 
     const noteObject = {
+      id: notes.length + 1,
       content: newNote,
       data: new Date().toISOString(),
       important: Math.random() > 0.5,
-      id: notes.length + 1,
       label: newLabel
     }
 
-    setNotes(notes.concat(noteObject))
-    setNewNote('')
-    setNewLabel('')
+    noteService
+      .create(noteObject)
+      .then(returnedNote => {
+        setNotes(notes.concat(returnedNote))
+        setNewNote('')
+        setNewLabel('')
+      })
   }
 
   const handleNoteChange = (event) => {

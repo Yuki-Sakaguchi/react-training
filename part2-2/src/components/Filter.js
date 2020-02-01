@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import Note from './Note'
 
-const Filter = ({ notes }) => {
+import noteService from "../services/notes";
+
+const Filter = ({ notes, setNotes }) => {
   const [filter, setFilter] = useState('')
   const [showAll, setShowAll] = useState(true)
 
@@ -14,11 +16,31 @@ const Filter = ({ notes }) => {
     ? notesToShow
     : notesToShow.filter(note => note.content.toLocaleLowerCase().indexOf(filter.toLocaleLowerCase()) !== -1)
 
+  // importantを切り替える処理
+  // 新しいオブジェクトを作ってpusメソッドで対象idのデータをごそっと置き換える
+  // DBを書き換えて返ってきた値でフロントと制御する
+  const toggleImportance = id => {
+    const note = notes.find(n => n.id === id)
+    const changeNote = { ...note, important: !note.important }
+    
+    noteService
+      .update(id, changeNote)
+      .then(returnedNote => {
+        // 対象のnote以外は元のノートで置き換える（変更なし）
+        setNotes(notes.map(note => note.id !== id ? note : returnedNote))
+      })
+      .catch(error => {
+        alert(`the note ${note.content} was already deleted from server`)
+        setNotes(notes.filter(n => n.id !== id))
+      })
+  }
+
   // フィルターを通したリストを使う
   const rows = () => notesFilter.map(note => 
     <Note
       key={note.id}
       note={note}
+      toggleImportance={() => toggleImportance(note.id)}
     />
   )
 

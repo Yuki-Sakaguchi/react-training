@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 
+import noteService from "./services/notes";
 import Filter from './components/Filter'
 import Form from './components/Form'
 
@@ -10,11 +10,11 @@ const App = () => {
   // useEffectで使う処理
   const hook = () => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/notes')
-      .then(response => {
+    noteService
+      .getAll()
+      .then(initialNotes => {
         console.log('promise fulfilled')
-        setNotes(response.data) // サーバーからデータが取ってこれたら再レンダリング
+        setNotes(initialNotes) // サーバーからデータが取ってこれたら再レンダリング
       })
   }
   // レンダリングが終わった直後に呼ばれる
@@ -24,7 +24,7 @@ const App = () => {
   return (
     <div>
       <h1>Notes</h1>
-      <Filter notes={notes} />
+      <Filter notes={notes} setNotes={setNotes} />
       <Form notes={notes} setNotes={setNotes} />
     </div>
   )
