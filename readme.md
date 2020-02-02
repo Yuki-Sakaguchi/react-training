@@ -51,6 +51,83 @@ map関数のindex（第２引数）は非推奨で、データの持つ一意の
 npm i -S cors
 ```
 
+## Redux
+https://qiita.com/micropig3402/items/ca6f14f92d6238a0aade
+
+- Action
+- ActionCreator
+- Store
+- State
+- Reducer
+
+からなる状態管理のフレームワーク
+
+### Action
+「何をする」を定義したオブジェクト  
+typeプロパティを持つこと
+
+### ActionCreator
+Actionを作成するメソッド  
+
+### Store
+アプリケーションの状態を保持している場所  
+アプリケーションに１つだけ存在し、１つのstateを保持している  
+
+### State
+Storeに保存されている状態自体のこと  
+
+### Reducer
+Stateを変更するためのメソッド  
+actionとstateから、新しいstateを作成して返します  
+ポイントは、引数のstateを更新することはせず、新しいstateのオブジェクトを作成して返します  
+reducerのメソッドは副作用を起こさないpureな関数でなければならず、Aというstateに対して毎回必ずBというstateを返すような関数でなければなりません。
+
+## Reduxの流れ
+https://qiita.com/kitagawamac/items/49a1f03445b19cf407b7
+
+1. ユーザーの入力
+2. ActionCreatorがActionオブジェクトを作成
+3. StoreへActionオブジェクトをdispatchする
+4. dispatchされたactionとstateがReducerに渡される
+5. Reducerが新しいstateを作成し、Storeに返す
+6. StoreのStateが更新される
+
+### ユーザーの入力からアクションを作成する
+ActionCreator関数により、UIの状態を元にActionオブジェクトを作成する  
+```
+{
+  type: 'ADD_TODO',
+  text: 'add todo context'
+}
+```
+
+### storeへActionをdispatchする
+ActionCreatorで作られたActionオブジェクトをStoreに送る  
+Storeのインスタンスにdispatchを実行する事で変更が伝わる
+```
+dispatch(addTodo(text))
+```
+
+### dispatchされたactionとstateをReducerへ渡す
+Storeは、Storeを作成する際にStateを変更するためのメソッドであるReducerを一つ登録します。  
+Storeはdispatchされると、引数のactionと現在保持しているStateをReducerへ渡し、新しいStateを作成します。  
+
+### Reducerが作成した新しいstateをstoreが保存する
+Reducerによって新しいStateが作成されるので、Storeは現在のStateに代わり保持します
+
+## Reduxの第３原則
+1. Single source of truth
+アプリケーション内でStoreは1つのみとし、Stateは単独のオブジェクトとしてStoreに保持される。
+
+2. State is read-only
+Stateを直接変更することはできず、actionをStoreへdispatchすることでしかStateは変更できない。
+
+3. Mutations are written as pure functions
+Stateを変更する関数(Reducer)はpureな関数にする。
+
+## Reduxの実装は決まったものがなさそう
+原則さえ守っていれば実装はそれぞれでいいみたい。  
+逆に言えばよく使うもののわりに各自で実装しないといけないっぽい...  
 
 # 勉強すること
 今Reactでアプリケーションを作ろうとしたら何がベストプラクティスなのか...  
@@ -61,6 +138,9 @@ npm i -S cors
 > - Node.js でサーバサイドでレンダーされたウェブサイトを構築するなら、Next.js を試してください
 > - 静的なコンテンツ中心のウェブサイトを構築するなら、Gatsby を試してください
 > - コンポーネントライブラリの構築や既存のコードベースへの統合をするなら、その他の柔軟なツールチェインを試してください
+
+- SSRならNext.js
+- CSRでよければcreate-react-app
 
 - スタイルはどうするのか（scss）
   - css in js が良いっぽい？（next.jsがそうっぽい）
