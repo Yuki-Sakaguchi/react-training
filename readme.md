@@ -1,4 +1,4 @@
-# React + Redux + GraphQLの演習
+# Reactでアプリを作るための実践的な勉強メモ
 https://fullstackopen.com/en/about/
 
 ## Reactでは、状態を直接変更することは禁止されている
@@ -128,6 +128,16 @@ Stateを変更する関数(Reducer)はpureな関数にする。
 ## Reduxの実装は決まったものがなさそう
 原則さえ守っていれば実装はそれぞれでいいみたい。  
 逆に言えばよく使うもののわりに各自で実装しないといけないっぽい...  
+
+## Router
+```
+react-router-dom
+```
+を使えばいいらしい  
+記述自体は簡単だったけど、Reduxと併用するときは注意が必要そう
+https://qiita.com/muijp/items/b4ca1773580317e7112e
+
+---
 
 # 勉強すること
 今Reactでアプリケーションを作ろうとしたら何がベストプラクティスなのか...  
